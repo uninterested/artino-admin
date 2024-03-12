@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import Skeleton from '~/uikit/skeleton.vue'
+import { Skeleton } from '~/uikit'
 import { computed, onMounted, ref } from 'vue'
 import { ConfigProvider } from '@arco-design/web-vue'
 import { RouterView, useRouter } from 'vue-router'
@@ -36,10 +36,9 @@ const syncUserInfo = async () => {
   const { pathname, search } = window.location
   const fullPath = `${pathname}${search}`
   if (!isSync) {
-    // 未登录或者登陆失效
     if (pathname !== '/login') router.replace(`/login?from=${encodeURIComponent(fullPath)}`)
   } else {
-    router.replace(fullPath || '/')
+    router.replace(fullPath.startsWith('/login') ? '/' : (fullPath || '/'))
   }
 }
 

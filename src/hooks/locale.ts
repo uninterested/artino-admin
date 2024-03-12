@@ -7,7 +7,7 @@ const useLocale = () => {
     const i18n = useI18n()
 
     const lang = localStorage.getItem(KLocaleKey) || (navigator.language?.includes('zh') ? 'zh-CN' : 'en-US')
-
+    i18n.locale.value = lang
     /**
      * 当前的语言
      */

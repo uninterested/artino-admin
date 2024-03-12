@@ -1,3 +1,4 @@
+import '~/utils/format'
 import './index.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

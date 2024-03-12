@@ -1,4 +1,5 @@
 export const kAuthToken: string = 'X-Token'
+export const kFP: string = 'fp'
 /**
  * 文件服务器地址
  */
@@ -11,7 +12,7 @@ export const mockFileUrl: string =
 /**
  * iconfont url
  */
-export const iconfontUrl: string = 'https://at.alicdn.com/t/c/font_4155217_pryx0gc87os.js'
+export const iconfontUrl: string = 'https://at.alicdn.com/t/c/font_4352724_pkgyijfah1c.js'
 
 /** success code */
 export const kSuccess: number = 200

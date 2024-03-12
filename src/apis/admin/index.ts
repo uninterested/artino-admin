@@ -64,7 +64,7 @@ export namespace AdminApi {
         /** 验证码 */
         code: string
         /** 昵称 */
-        nickName: string
+        nickName?: string
     }
 
     export interface ILoginAdmin {
