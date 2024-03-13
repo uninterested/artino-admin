@@ -12,7 +12,7 @@ export const mockFileUrl: string =
 /**
  * iconfont url
  */
-export const iconfontUrl: string = 'https://at.alicdn.com/t/c/font_4352724_pkgyijfah1c.js'
+export const iconfontUrl: string = 'https://at.alicdn.com/t/c/font_4352724_91womb4l4ld.js'
 
 /** success code */
 export const kSuccess: number = 200

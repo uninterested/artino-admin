@@ -36,7 +36,8 @@
                 </div>
             </div>
             <div class="form-container sign-in-container px-14 relative">
-                <IconFont type="icon-erweimadenglu1" :size="40" class="absolute right-3 top-3 cursor-pointer"
+                <IconFont :type="!isScanCode ? 'icon-erweimadenglu' : 'icon-zhanghaomimadenglu'"
+                    :size="!isScanCode ? 30 : 40" class="absolute right-3 top-3 cursor-pointer"
                     @click="toggleCodeLogin" />
                 <div v-if="!isScanCode">
                     <h1 class="text-center font-bold text-xl mt-20 mb-4 alpha-color">{{ t('user.login') }}</h1>
@@ -75,8 +76,10 @@
                     </div>
                 </div>
                 <div class="flex flex-1 flex-col items-center justify-center h-full" v-else>
-                    <div class="text-xl alpha-color font-bold">{{ t('scan.with').format(t('app.name')) }}</div>
-                    <QrcodeVue :value="qrcode" :margin="2" foreground="#111" class="mt-4" :size="180" level="H" />
+                    <div class="text-xl alpha-color font-bold mb-4">{{ t('scan.with').format(t('app.name')) }}</div>
+                    <Spin :loading="!qrcode" class="!bg-transparent" :size="36">
+                        <QrcodeVue :value="qrcode" :margin="2" foreground="#111" :size="180" level="H" />
+                    </Spin>
                     <div class="mt-3 text-xs alpha-color">{{ t('scan.login').format(t('app.name')) }}</div>
                     <div class="mt-1 text-xs alpha-color">{{ t('app.admin') }}</div>
                 </div>
@@ -106,13 +109,14 @@
 </template>
 <script setup lang="ts">
 import './index.scss'
-import { Form, type FieldRule } from '@arco-design/web-vue'
+import { Form, type FieldRule, Spin } from '@arco-design/web-vue'
 import { Input, Button, IconFont } from '~/uikit'
 import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import usePageHooks from './hooks'
 import { buildRequire, emailCheck, phoneCheck } from '~/utils/validator'
 import QrcodeVue from 'qrcode.vue'
+import * as A from '~/utils/crypto'
 //@ts-ignore
 import render from './utils/index.js'
 const { t } = useI18n()
@@ -120,7 +124,9 @@ const [
     { isLogin, isPwdLogin, formDataReg, formRefReg, formDataLog, formRefLog,
         logCountdown, regCountdown, isScanCode, qrcode },
     { login, register, sendCode, toggleCodeLogin }] = usePageHooks()
-onMounted(() => render())
+onMounted(() => {
+    render()
+})
 
 //#region rules
 const accountRule: FieldRule[] = [

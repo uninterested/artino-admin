@@ -134,6 +134,9 @@ const usePagehooks = (): [IPageResultProps, IPageMethodProps] => {
    */
   const toggleCodeLogin = () => {
     isScanCode.value = !isScanCode.value
+    if (isScanCode.value && !qrcode.value) {
+      console.log('333: ', 'fetch')
+    }
   }
   //#endregion
 
