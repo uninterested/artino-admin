@@ -1,85 +1,50 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <ConfigProvider :locale="locale">
+    <Skeleton v-if="!initial" />
+    <RouterView v-else />
+  </ConfigProvider>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<script setup lang="ts">
+import { Skeleton } from '~/uikit'
+import { computed, onMounted, ref } from 'vue'
+import { ConfigProvider } from '@arco-design/web-vue'
+import { RouterView, useRouter } from 'vue-router'
+import useLocale from './hooks/locale';
+import en from '@arco-design/web-vue/es/locale/lang/en-us'
+import zh from '@arco-design/web-vue/es/locale/lang/zh-cn'
+import useAdminStore from '~/store/admin';
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+const router = useRouter()
+const initial = ref<boolean>(false)
+const [{ current }] = useLocale()
+const { sync } = useAdminStore()
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+const locale = computed(() => {
+  switch (current?.value) {
+    case 'en-US': return en
+    default: return zh
   }
+})
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+/**
+ * 同步用户信息
+ */
+const syncUserInfo = async () => {
+  const isSync = await sync()
+  initial.value = true
+  const { pathname, search } = window.location
+  const fullPath = `${pathname}${search}`
+  if (!isSync) {
+    if (pathname !== '/login') router.replace(`/login?from=${encodeURIComponent(fullPath)}`)
+  } else {
+    router.replace(fullPath.startsWith('/login') ? '/' : (fullPath || '/'))
   }
 }
-</style>
+
+onMounted(() => {
+  syncUserInfo()
+})
+
+
+</script>

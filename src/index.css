@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  padding: 0;
+  margin: 0;
+}
+img[src=''],
+img:not([src]) {
+  opacity: 0;
+}
+html {
+  font-size: 16px;
+  background-color: var(--sideBackgroundColor);
+  font-family:
+    -apple-system,
+    SF UI Text,
+    Arial,
+    PingFang SC,
+    Hiragino Sans GB,
+    Microsoft YaHei,
+    WenQuanYi Micro Hei,
+    sans-serif;
+}
+html,
+body {
+  transition: all ease 0.3s;
+  background-color: var(--color-bg-1);
+}
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: var(--color-text-2);
+}
+::-webkit-scrollbar-track {
+  border-radius: 2px;
+  background: var(--color-fill-2);
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.hover {
+  background-color: rgb(242, 243, 245);
+}
+body[arco-theme='dark'] .hover {
+  background-color: rgb(52, 53, 54);
+}
+
+.arco-dropdown-option-has-suffix .arco-dropdown-option-content {
+  flex: 1;
+}
+
+.arco-table-element .arco-form-item {
+  margin-bottom: 0 !important;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+.arco-table-td {
+  background-color: var(--color-bg-2) !important;
+}
+
+.arco-input,
+.arco-textarea::placeholder {
+  font-size: 12px !important;
+}
+
+.modal .arco-modal-body {
+  text-align: center;
+}
+
+.tabs .arco-tabs-content-list,
+.arco-tabs-content-item,
+.arco-tabs-pane {
+  height: 100%;
+}
