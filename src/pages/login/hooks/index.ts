@@ -195,7 +195,9 @@ const usePagehooks = (): [IPageResultProps, IPageMethodProps] => {
       formDataLog,
       formRefLog,
       isScanCode,
-      qrcode
+      qrcode,
+      timerDown,
+      timerLoop
     },
     {
       login,

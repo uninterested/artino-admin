@@ -112,7 +112,7 @@
 import './index.scss'
 import { Form, type FieldRule, Spin } from '@arco-design/web-vue'
 import { Input, Button, IconFont } from '~/uikit'
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import usePageHooks from './hooks'
 import { buildRequire, emailCheck, phoneCheck } from '~/utils/validator'
@@ -123,11 +123,16 @@ import render from './utils/index.js'
 const { t } = useI18n()
 const [
     { isLogin, isPwdLogin, formDataReg, formRefReg, formDataLog, formRefLog,
-        logCountdown, regCountdown, isScanCode, qrcode },
+        logCountdown, regCountdown, isScanCode, qrcode, timerDown, timerLoop },
     { login, register, sendCode, toggleCodeLogin }] = usePageHooks()
 onMounted(() => {
     // render()
 })
+onUnmounted(() => {
+    if (timerDown.value) clearTimeout(timerDown.value)
+    if (timerLoop.value) clearTimeout(timerLoop.value)
+})
+
 
 //#region rules
 const accountRule: FieldRule[] = [
