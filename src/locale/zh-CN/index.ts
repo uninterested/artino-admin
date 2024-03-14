@@ -5,6 +5,7 @@ export default {
     'scan.with': '[0]扫码登录',
     'scan.login': '请使用[0]扫描二维码登录',
     'app.admin': '此管理后台',
+    'qrcode.unknow': '无法识别此二维码',
 
     'rule.error.special.char2': '不支持特殊符号',
     'rule.error.special.char': '不支持【】、★、 ※、 →、 ●等特殊符号',

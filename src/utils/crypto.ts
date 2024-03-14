@@ -1,4 +1,5 @@
 import CryptoJS, { AES, enc, mode, pad, DES, MD5, SHA256 } from 'crypto-js'
+import { kFP } from '~/config'
 
 
 
@@ -88,8 +89,8 @@ export const Sha256 = (input: CryptoJS.lib.WordArray | string): string => {
  * 获取浏览器指纹
  * @returns 
  */
-export const fingerPrint = (): Promise<string> => {
-
+export const fingerPrint = () => {
+    if (localStorage.getItem(kFP)) return
     const createFP = () => {
         const outScreenCanvas = document.createElement('canvas')
         const ctx = outScreenCanvas.getContext("2d")!
@@ -107,15 +108,15 @@ export const fingerPrint = (): Promise<string> => {
         return Sha256(canvasImageData)
     }
 
-    return new Promise((res) => {
-        if (window.requestIdleCallback) {
-            window.requestIdleCallback(() => {
-                res(createFP())
-            })
-        } else {
-            setTimeout(() => {
-                res(createFP())
-            }, 1000);
-        }
-    })
+    if (window.requestIdleCallback) {
+        window.requestIdleCallback(() => {
+            const value = createFP()
+            localStorage.setItem(kFP, value)
+        })
+    } else {
+        setTimeout(() => {
+            const value = createFP()
+            localStorage.setItem(kFP, value)
+        }, 1000);
+    }
 }

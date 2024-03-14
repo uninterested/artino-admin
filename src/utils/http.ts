@@ -1,18 +1,12 @@
 import { Message } from '@arco-design/web-vue'
 import axios, { AxiosError } from 'axios'
 import { kAuthToken, kFP } from '~/config'
-import { fingerPrint } from './crypto'
 
 const kTimeOut: number = 30000
 
 const getAuthToken = () => {
     const token = localStorage.getItem(kAuthToken)
     const fp = localStorage.getItem(kFP)
-    if (!fp) {
-        fingerPrint().then((value) => {
-            localStorage.setItem(kFP, value)
-        })
-    }
     return token ? {
         [kAuthToken]: token,
         [kFP]: fp,
@@ -52,12 +46,13 @@ export const Get = async <T>(
     const keys = Object.keys(params || {})
     const query: string = keys.length ? `?${keys.map((k) => `${k}=${params[k]}`).join('&')}` : ''
     try {
-        const { data } = await axios<IResponse>({
+        const { headers, data } = await axios<IResponse>({
             url: `${url}${query}`,
             method: 'GET',
             timeout: kTimeOut,
             headers: getAuthToken()
         })
+        saveToken(headers?.[kAuthToken.toLowerCase()])
         emitError(data, autoEmit)
         return data
     } catch (e) {

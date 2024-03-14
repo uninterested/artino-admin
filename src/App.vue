@@ -14,6 +14,7 @@ import useLocale from './hooks/locale';
 import en from '@arco-design/web-vue/es/locale/lang/en-us'
 import zh from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import useAdminStore from '~/store/admin';
+import { fingerPrint } from './utils/crypto';
 
 const router = useRouter()
 const initial = ref<boolean>(false)
@@ -43,6 +44,7 @@ const syncUserInfo = async () => {
 }
 
 onMounted(() => {
+  fingerPrint()
   syncUserInfo()
 })
 
