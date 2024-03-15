@@ -55,6 +55,22 @@ export namespace AdminApi {
         return await Post(`/api/admin/setRole/${id}`, req)
     }
 
+    /**
+     * 获取验证码
+     * @returns 
+     */
+    export const getQRCode = async (): Promise<IResponse<string>> => {
+        return await Get<string>('/api/admin/qrcode')
+    }
+
+    /**
+     * 检测C端的用户有没有扫码绑定
+     * @param token 
+     * @returns 
+     */
+    export const scanInfo = async (token: string): Promise<IResponse<POJO | null>> => {
+        return await Get(`/api/admin/qrcode/info/${token}`, {}, false)
+    }
 
     export interface INewAdmin {
         /** 账号 */

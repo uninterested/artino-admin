@@ -78,7 +78,8 @@
                 <div class="flex flex-1 flex-col items-center justify-center h-full" v-else>
                     <div class="text-xl alpha-color font-bold mb-4">{{ t('scan.with').format(t('app.name')) }}</div>
                     <Spin :loading="!qrcode" class="!bg-transparent" :size="36">
-                        <QrcodeVue :value="qrcode" :margin="2" foreground="#111" :size="180" level="H" />
+                        <QrcodeVue v-if="qrcode" :value="qrcode" :margin="2" foreground="#000" :size="176" level="H" />
+                        <div v-else class="w-44 h-44"></div>
                     </Spin>
                     <div class="mt-3 text-xs alpha-color">{{ t('scan.login').format(t('app.name')) }}</div>
                     <div class="mt-1 text-xs alpha-color">{{ t('app.admin') }}</div>
@@ -111,7 +112,7 @@
 import './index.scss'
 import { Form, type FieldRule, Spin } from '@arco-design/web-vue'
 import { Input, Button, IconFont } from '~/uikit'
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import usePageHooks from './hooks'
 import { buildRequire, emailCheck, phoneCheck } from '~/utils/validator'
@@ -122,11 +123,16 @@ import render from './utils/index.js'
 const { t } = useI18n()
 const [
     { isLogin, isPwdLogin, formDataReg, formRefReg, formDataLog, formRefLog,
-        logCountdown, regCountdown, isScanCode, qrcode },
+        logCountdown, regCountdown, isScanCode, qrcode, timerDown, timerLoop },
     { login, register, sendCode, toggleCodeLogin }] = usePageHooks()
 onMounted(() => {
-    render()
+    // render()
 })
+onUnmounted(() => {
+    if (timerDown.value) clearTimeout(timerDown.value)
+    if (timerLoop.value) clearTimeout(timerLoop.value)
+})
+
 
 //#region rules
 const accountRule: FieldRule[] = [

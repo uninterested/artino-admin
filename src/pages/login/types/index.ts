@@ -12,6 +12,8 @@ export interface IPageResultProps {
   formRefLog: Ref<InstanceType<typeof Form> | undefined>
   isScanCode: Ref<boolean>
   qrcode: Ref<string | undefined>
+  timerDown: Ref<number | undefined>
+  timerLoop: Ref<number | undefined>
 }
 
 export interface IPageMethodProps {

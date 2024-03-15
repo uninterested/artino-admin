@@ -20,3 +20,5 @@ export const kSuccess: number = 200
 export const tintColor: `#${string}` = '#366FDD'
 /** 时间格式化 */
 export const kTimeFmt: string = 'YYYY/MM/DD HH:mm:ss'
+/** 对称加密的key */
+export const encodeKey: string = 'iosuhdiofhpoiahdso'
