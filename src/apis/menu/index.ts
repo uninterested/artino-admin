@@ -66,8 +66,23 @@ export namespace MenuApi {
 
     // interface =====
 
-    export interface AdminMenuListRes {
-
+    export interface AdminMenuListRes extends IIdModel {
+        /** 父级菜单id */
+        parentId: string
+        /** 名称 */
+        name: string
+        /** 值 */
+        value?: string
+        /** 图标 */
+        icon?: string
+        /** 类型 */
+        type: EMenuType
+        /** 路由 */
+        url?: string
+        /** 创建时间 */
+        createdAt: string
+        /** 子菜单 */
+        children?: AdminMenuListRes[]
     }
 
     export enum EMenuType {
