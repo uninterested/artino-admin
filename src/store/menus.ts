@@ -15,7 +15,6 @@ const useMenuStores = defineStore('kMenu', () => {
         const { data } = await MenuApi.tree()
         if (data) {
             console.log('dddd: ', data)
-
         } else {
             tree.value = []
         }
